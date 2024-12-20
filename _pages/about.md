@@ -2,24 +2,25 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
+subtitle: Research Engineer, <a href="https://www.linkedin.com/company/huawei-technologies-research-development-uk-ltd">Huawei London Research Centre</a>
 
 profile:
   align: right
-  image: prof_pic.jpg
+  image: prof_pic_my.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
+    <p>5th floor Gridiron building, 1 Pancras Square, Kings Cross, </p>
+    <p>London, UK </p>
 
 news: true # includes a list of news items
-selected_papers: true # includes a list of papers marked as "selected={true}"
+selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+Hi there! I'm a research engineer working on AI agent in the Huawei UK Research Centre and I'm currently looking for a PhD position about language and cognition.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+I finished my master program MSc Speech and Language Processing at the [University of Edinburgh](https://www.ed.ac.uk/), where I learnt concretly the theories and techniques about NLP, and more importantly, realized the potential in cognitive science. Before, I did a 4-year undergraduate study about computer science and intelligence science at the [Beijing University of Posts Telecommunications](https://www.bupt.edu.cn/), where I acquired solid programming capabilities and foundation of AI theories. 
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+My research interest lies in <u>the human cognitive process</u>, <u>the interaction between cognition and language</u>, <u>and how to implement cognitive models computationally in AI system</u> to enhance its intelligence or make it more human-like, briging human and AI.
+
+Welcome to check my blogs here [KunH's Blog](http://blog.kunhao.site) 😊
