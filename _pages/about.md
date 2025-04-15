@@ -17,10 +17,10 @@ selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-Hi there! I'm a research engineer working on AI agent in the Huawei UK Research Centre and I'm currently looking for a PhD position about language and cognition.
+Hi there! I'm a research engineer at the Huawei London Research Centre, working on MLLM-based AI agents for GUI task automation. My current focus is on developing innovative solutions for AI systems that can interact with software environments in human-like, efficient ways.
 
-I finished my master program MSc Speech and Language Processing at the [University of Edinburgh](https://www.ed.ac.uk/), where I learnt concretly the theories and techniques about NLP, and more importantly, realized the potential in cognitive science. Before, I did a 4-year undergraduate study about computer science and intelligence science at the [Beijing University of Posts Telecommunications](https://www.bupt.edu.cn/), where I acquired solid programming capabilities and foundation of AI theories. 
+I completed my MSc in Speech and Language Processing at the [University of Edinburgh](https://www.ed.ac.uk/), where I gained a strong foundation in natural language processing and discovered a deep interest in cognitive science. Prior to that, I earned my bachelor's degree in Computer Science and Intelligence Science from the [Beijing University of Posts Telecommunications](https://www.bupt.edu.cn/), where I built solid programming skills and a strong grounding in AI fundamentals.
 
-My research interest lies in <u>the human cognitive process</u>, <u>the interaction between cognition and language</u>, <u>and how to implement cognitive models computationally in AI system</u> to enhance its intelligence or make it more human-like, briging human and AI.
+My research interests lie in <u>efficient and effective human-computer interaction</u> and <u>cognition-inspired AI systems</u>, with a focus on exploiting the capabilities of intelligent agents. I’m passionate about building socially beneficial AI that bridges humans and machines through seamless, intuitive collaboration.
 
 Welcome to check my blogs here [KunH's Blog](http://blog.kunhao.site) 😊
