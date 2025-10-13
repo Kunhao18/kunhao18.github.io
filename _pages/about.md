@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: PhD Student, <a href="https://www.kcl.ac.uk/">King's College London</a>
+subtitle: PhD Student in NLP, <a href="https://www.kcl.ac.uk/">King's College London</a>
 
 profile:
   align: right
