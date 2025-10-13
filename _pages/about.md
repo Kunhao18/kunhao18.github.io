@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: Research Engineer, <a href="https://www.linkedin.com/company/huawei-technologies-research-development-uk-ltd">Huawei London Research Centre</a>
+subtitle: PhD Student, <a href="https://www.kcl.ac.uk/">King's College London</a>
 
 profile:
   align: right
