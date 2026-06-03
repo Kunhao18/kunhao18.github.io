@@ -232,6 +232,15 @@
 
     root.appendChild(buildTopbar(theme));
     root.appendChild(grid);
+
+    // Open external links in a new tab; leave in-page anchors (#…) and
+    // mailto: links alone so they behave normally.
+    root.querySelectorAll("a[href]").forEach(function (a) {
+      var href = a.getAttribute("href") || "";
+      if (href.charAt(0) === "#" || href.indexOf("mailto:") === 0) return;
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener noreferrer");
+    });
   }
 
   render();
