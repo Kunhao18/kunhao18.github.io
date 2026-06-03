@@ -82,7 +82,7 @@ window.SITE_CONFIG = {
     { date: "Oct 2025", text: `Started my PhD at <em>King's College London</em>, supervised by Prof. Yulan He.` },
     { date: "Jan 2025", text: `<strong>SPA-Bench</strong> accepted as a Spotlight by <em>ICLR 2025</em> 🎉 <a href="https://arxiv.org/abs/2410.15164">[paper]</a>` },
     { date: "Jan 2025", text: `<strong>DistRL</strong> accepted by <em>ICLR 2025</em> 🎉 <a href="https://arxiv.org/abs/2410.14803">[paper]</a>` },
-    { date: "Oct 2024", text: `Joined <em>Huawei Noah's Ark Lab</em> as a research engineer, working on LLM-based GUI agentic systems.` },
+    { date: "Oct 2023", text: `Joined <em>Huawei Noah's Ark Lab</em> as a research engineer, working on LLM-based GUI agentic systems.` },
   ],
 
   /* ---- Publications ------------------------------------------------------ */
@@ -139,9 +139,9 @@ window.SITE_CONFIG = {
   // `note` is optional.
   experience: [
     { when: "2025 — now",  role: "PhD Student, Computer Science",                   where: "King's College London",                      note: "Advised by Prof. Yulan He." },
-    { when: "2024 — 2025", role: "Research Engineer",                               where: "Huawei Noah's Ark Lab",                      note: "LLM-based agentic systems on GUI." },
-    { when: "2023 — 2024", role: "MSc, Speech and Language Processing",             where: "University of Edinburgh",                    note: "Dissertation on cognition-inspired narrative structure extraction with LLMs." },
-    { when: "2019 — 2023", role: "BEng, Computer Science and Intelligence Science",  where: "Beijing Univ. of Posts and Telecommunications" },
+    { when: "2023 — 2025", role: "Research Engineer",                               where: "Huawei Noah's Ark Lab",                      note: "LLM-based agentic systems on GUI." },
+    { when: "2022 — 2023", role: "MSc, Speech and Language Processing",             where: "University of Edinburgh",                    note: "Dissertation on cognition-inspired narrative structure extraction with LLMs." },
+    { when: "2019 — 2022", role: "BEng, Computer Science and Intelligence Science",  where: "Beijing Univ. of Posts and Telecommunications" },
   ],
 
   /* ---- Contact ----------------------------------------------------------- */
