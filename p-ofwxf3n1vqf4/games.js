@@ -37,7 +37,7 @@ window.GAMES_CONFIG = {
                                     // Set = "○○ 전용 / ○○(이)랑 하고 싶은 게임들".
     steamFriendCode: "",            // e.g. "123456789". Shown (with a copy button) in the gift steps.
                                     // Steam → Friends → Add a Friend → "Your Friend Code".
-    formspreeId: "",                // e.g. "xkgwabcd" from https://formspree.io (free).
+    formspreeId: "mwllznnb",        // from https://formspree.io (free).
                                     // Empty = the send button opens her mail app instead.
     ownerEmail: ["zhihao.2.wu", "kcl.ac.uk"],   // [user, domain] — joined at runtime
     emailSubject: "{emoji} {game} 하자는 요청이 왔어",   // subject line you receive
