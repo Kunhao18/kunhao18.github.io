@@ -47,6 +47,31 @@
     for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
     return null;
   }
+  // Replace a container's content and ease its height from the old size to the
+  // new one, so tabs / options never snap to a different size.
+  var REDUCE = false;
+  try { REDUCE = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+  function swapAnimated(host, node) {
+    if (!host) return;
+    var from = host.offsetHeight;
+    host.replaceChildren(node);
+    if (REDUCE || !from) return;
+    var to = host.offsetHeight;
+    if (Math.abs(to - from) < 2) return;
+    host.style.transition = "none";
+    host.style.height = from + "px";
+    host.style.overflow = "hidden";
+    host.getBoundingClientRect();              // commit the start height
+    host.style.transition = "height .28s ease";
+    host.style.height = to + "px";
+    var finish = function () {
+      host.style.transition = ""; host.style.height = ""; host.style.overflow = "";
+      host.removeEventListener("transitionend", finish);
+    };
+    host.addEventListener("transitionend", finish);
+    setTimeout(finish, 360);
+  }
+
   // Korean particle after a name: 랑 after a vowel, 이랑 after a final consonant.
   function rangFor(name) {
     var c = name.charCodeAt(name.length - 1);
@@ -282,11 +307,10 @@
     state.tab = tab === "start" ? "start" : "about";
     var g = currentGame();
     if (!g) return;
-    var host = dialog.querySelector(".panel-host");
-    if (host) host.replaceChildren(buildPanel(g));
+    swapAnimated(dialog.querySelector(".panel-host"), buildPanel(g));
     dialog.querySelectorAll('input[name="tab"]').forEach(function (i) { i.checked = i.value === state.tab; });
     var tabs = dialog.querySelector(".tabs");   // read the new tab from its top
-    if (tabs) tabs.scrollIntoView({ block: "start" });
+    if (tabs) tabs.scrollIntoView({ block: "start", behavior: REDUCE ? "auto" : "smooth" });
     if (!fromHash) history.replaceState(null, "", "#" + g.id + (state.tab === "start" ? "/start" : ""));
   }
 
@@ -306,8 +330,7 @@
         [s.icon ? el("span", { class: "chip-ic", "aria-hidden": "true" }, [s.icon]) : null, tx(s.label)]);
       b.addEventListener("click", function () {
         state.sys = i;
-        var host = dialog.querySelector(".sys-host");
-        if (host) host.replaceChildren(buildSystemPanel(systems[i]));
+        swapAnimated(dialog.querySelector(".sys-host"), buildSystemPanel(systems[i]));
         dialog.querySelectorAll(".chip").forEach(function (c, j) { c.setAttribute("aria-selected", j === i ? "true" : "false"); });
       });
       return b;
@@ -466,7 +489,7 @@
 
   function renderBar() {
     var g = currentGame(), bar = dialog.querySelector(".bar");
-    if (g && bar) bar.replaceChildren(buildBar(g));
+    if (g && bar) swapAnimated(bar, buildBar(g));
   }
 
   function markRequested(g, mood) {
