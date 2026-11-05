@@ -24,6 +24,8 @@
  *              (language, difficulty, session length…). Any number of { ko, en }.
  *    systems   the "what's fun" tabs. Each has an icon, a label, a screenshot,
  *              what it is (what), what we do together (together) and our goal.
+ *    start     optional: your own "시작하기" sections [{ label, steps: [{ title, body }] }]
+ *              for a game that isn't on Steam. Leave it out to use the generic steps.
  *    links     store pages shown in the About tab
  * ========================================================================== */
 
@@ -186,6 +188,69 @@ window.GAMES_CONFIG = {
                en: "It's free, so there's nothing to gift. You get the cutest one, though." },
       links: [
         { label: { ko: "Steam 페이지", en: "Steam page" }, href: "https://store.steampowered.com/app/4126040/Aniimo/" },
+      ],
+    },
+    {
+      id: "fallguys", passion: 5, status: "wishlist",
+      pc: true, mobile: false, delivery: "free", join: "party",
+      cover: "img/fallguys-card.jpg",
+      hero:  "img/fallguys-hero.jpg",
+      trailer: "pLn2ViEn8Bk",
+      name:  { ko: "폴 가이즈", en: "Fall Guys" },
+      hook:  { ko: "넘어지고 밀리고 웃기만 하면 돼.",
+               en: "Fall over, get shoved, laugh. That's the whole game." },
+      intro: { ko: "젤리처럼 생긴 '빈'이 되어서 60명이 동시에 장애물 코스를 달리는 파티 게임이야. 넘어지고 튕겨나가는 게 포인트라 못해도 웃겨. 무료고, Epic Games에서 받아.",
+               en: "You're a jelly bean among sixty, racing through obstacle courses in a party game where falling over and getting flung is the point, so being bad at it is still funny. Free, on the Epic Games Store." },
+      facts: [
+        { ko: "한국어 OK", en: "Korean OK" },
+        { ko: "초보 난이도 쉬움 (버튼 세 개: 점프·잡기·다이브)", en: "Easy (three buttons: jump, grab, dive)" },
+        { ko: "한 판 5~10분", en: "5–10 minutes a round" },
+      ],
+      systems: [
+        { icon: "🏃", label: { ko: "레이스", en: "Races" }, shot: "img/fallguys-race.jpg",
+          what: { ko: "60명이 출발선에서 동시에 뛰어. 문 뚫고, 회전판 건너고, 경사 미끄러지면서 정해진 인원 안에 들면 다음 라운드. 느린 쪽은 탈락.",
+                  en: "Sixty beans start together: burst through doors, cross spinning platforms, slide down slopes, and finish inside the cutoff to reach the next round. The slowest are out." },
+          together: { ko: "같은 코스 안에서 서로 찾아서 같이 달려. 네가 떨어지면 나도 기다렸다가 같이 가.",
+                      en: "We find each other on the course and run it together. If you fall off, I'll wait." },
+          goal: { ko: "둘 다 결승까지 살아남기", en: "Both of us surviving to the final" } },
+        { icon: "🔨", label: { ko: "장애물", en: "Obstacles" }, shot: "img/fallguys-obstacles.jpg",
+          what: { ko: "큰 망치, 돌아가는 프로펠러, 밀어내는 벽, 사라지는 발판. 타이밍 보고 점프하거나 다이브로 피해. 맞으면 날아가는데 그게 제일 웃겨.",
+                  en: "Giant hammers, spinning propellers, shoving walls, vanishing tiles. Time your jump or dive to get past. Getting hit sends you flying, which is the funniest part." },
+          together: { ko: "내가 먼저 가서 타이밍 보여줄게. 나 뛸 때 같이 뛰면 돼.",
+                      en: "I'll go first and show you the timing. Just jump when I jump." },
+          goal: { ko: "망치 구간 한 번에 통과", en: "Clear the hammer section in one go" } },
+        { icon: "👗", label: { ko: "꾸미기 & 파티", en: "Costumes & party" }, shot: "img/fallguys-party.jpg",
+          what: { ko: "빈을 공룡, 아이스크림, 유명 캐릭터로 꾸밀 수 있어. 친구랑 최대 4명 파티로 들어가면 같은 라운드에서 같이 뛰어.",
+                  en: "Dress your bean as a dinosaur, an ice cream, a famous character. Party up with up to four friends and you land in the same rounds." },
+          together: { ko: "커플 의상 맞추자. 그다음엔 사진 찍기.",
+                      en: "Matching couple outfits, then a photo." },
+          goal: { ko: "커플룩 완성", en: "A matching couple look" } },
+        { icon: "🛠️", label: { ko: "직접 만들기", en: "Build a course" }, shot: "img/fallguys-create.jpg",
+          what: { ko: "'크리에이티브'에서 우리만의 장애물 코스를 직접 만들 수 있어. 블록이랑 장애물을 놓고 바로 테스트.",
+                  en: "In Creative you build your own obstacle course: place blocks and obstacles, then test it right away." },
+          together: { ko: "네가 설계하고 내가 먼저 깨볼게. 그다음 바꿔서.",
+                      en: "You design it, I try to beat it first. Then we swap." },
+          goal: { ko: "서로 못 깨는 코스 하나씩 만들기", en: "Each of us builds a course the other can't beat" } },
+      ],
+      note:  { ko: "이 게임은 잘할 필요가 없어. 같이 넘어지는 게 목적이야.",
+               en: "You don't need to be good at this one. Falling over together is the point." },
+      links: [
+        { label: { ko: "Epic Games 페이지", en: "Epic Games page" }, href: "https://store.epicgames.com/p/fall-guys" },
+      ],
+      // Not on Steam any more: its own start steps replace the generic ones.
+      start: [
+        { label: { ko: "Epic에서 받기 (무료)", en: "Get it on Epic (free)" }, steps: [
+          { title: { ko: "Epic Games 앱 설치하고 로그인", en: "Install the Epic Games app and sign in" },
+            body:  { ko: "epicgames.com 에서 Epic Games Launcher를 받아 설치해. 계정 만들고 로그인 (무료).", en: "Download the Epic Games Launcher from epicgames.com, install it, make an account and sign in (free)." } },
+          { title: { ko: "Fall Guys 받기", en: "Get Fall Guys" },
+            body:  { ko: "런처에서 \"Fall Guys\" 검색 → 받기 → 설치. 다 받아지면 나한테 알려줘.", en: "Search \"Fall Guys\" in the launcher → Get → Install. Ping me when it's done." } },
+        ] },
+        { label: { ko: "같이 하기", en: "Play together" }, steps: [
+          { title: { ko: "Epic 친구 추가", en: "Add me on Epic" },
+            body:  { ko: "내 Epic 닉네임은 카톡으로 보내줄게. 친구 → 친구 추가 → 닉네임 입력.", en: "I'll text you my Epic name. Friends → Add Friend → type it in." } },
+          { title: { ko: "파티 초대 수락", en: "Accept the party invite" },
+            body:  { ko: "내가 초대 보내면 수락. 그럼 같은 라운드에 같이 들어가. 최대 4명이라 친구 데려와도 돼.", en: "Accept my invite and we drop into the same rounds. Up to four, so bring a friend." } },
+        ] },
       ],
     },
   ],

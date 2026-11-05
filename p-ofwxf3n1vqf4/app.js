@@ -125,6 +125,12 @@
   /* ---- install / join steps (from the strings) -------------------------- */
 
   function tutorial(g) {
+    // A game can bring its own sections (e.g. one that isn't on Steam).
+    if (Array.isArray(g.start) && g.start.length) {
+      return g.start.map(function (sec) {
+        return { label: tx(sec.label), steps: (sec.steps || []).map(function (st) { return { title: tx(st.title), body: tx(st.body) }; }) };
+      });
+    }
     var T = t().tutorial || {};
     var vars = { name: tx(g.name) };
     function steps(block) {
