@@ -290,7 +290,20 @@
     var scroll = el("div", { class: "modal-scroll" }, [hero, body]);
     var bar = el("div", { class: "bar" }, [buildBar(g)]);
     dialog.replaceChildren(scroll, bar);
+    fitPanel();
   }
+
+  // The area under the tabs is always at least as tall as the scroll viewport
+  // (minus the tabs), so switching to shorter content never shortens the
+  // scrollable range below the current position (that caused a jump).
+  function fitPanel() {
+    var sc = dialog.querySelector(".modal-scroll"), tabs = dialog.querySelector(".tabs"), body = dialog.querySelector(".modal-body");
+    if (!sc || !tabs || !body) return;
+    var cs = getComputedStyle(body);
+    var min = sc.clientHeight - tabs.offsetHeight - (parseFloat(cs.rowGap) || 0) - (parseFloat(cs.paddingBottom) || 0);
+    dialog.style.setProperty("--panel-min", Math.max(0, Math.round(min)) + "px");
+  }
+  window.addEventListener("resize", function () { if (dialog.open) fitPanel(); });
 
   function buildTabs() {
     var tt = t();
@@ -307,10 +320,15 @@
     state.tab = tab === "start" ? "start" : "about";
     var g = currentGame();
     if (!g) return;
+    fitPanel();
     swapAnimated(dialog.querySelector(".panel-host"), buildPanel(g));
     dialog.querySelectorAll('input[name="tab"]').forEach(function (i) { i.checked = i.value === state.tab; });
-    var tabs = dialog.querySelector(".tabs");   // read the new tab from its top
-    if (tabs) tabs.scrollIntoView({ block: "start", behavior: REDUCE ? "auto" : "smooth" });
+    // Only bring the tabs into view when they are scrolled out of sight
+    // (e.g. after the "시작하기 →" button at the bottom); otherwise stay put.
+    var tabs = dialog.querySelector(".tabs"), sc = dialog.querySelector(".modal-scroll");
+    if (tabs && sc && tabs.getBoundingClientRect().top < sc.getBoundingClientRect().top - 1) {
+      tabs.scrollIntoView({ block: "start", behavior: REDUCE ? "auto" : "smooth" });
+    }
     if (!fromHash) history.replaceState(null, "", "#" + g.id + (state.tab === "start" ? "/start" : ""));
   }
 
