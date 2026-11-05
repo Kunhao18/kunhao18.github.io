@@ -38,3 +38,15 @@ python3 -m http.server 8000   # then visit http://localhost:8000
 
 Push to the `main` branch of `kunhao18/kunhao18.github.io`. GitHub Pages serves
 it at https://kunhao18.github.io within a minute or two.
+
+## Unlisted page (`p-…/`)
+
+The `p-<random-id>/` directory is a separate, self-contained static page
+(its own HTML, JS and images). It is not linked from the homepage, carries
+`noindex, nofollow, noarchive` and a `no-referrer` policy, and is not in any
+sitemap. It is unlisted, not private: anyone with the URL can open it, and the
+directory name is visible in this public repository.
+
+All of its content lives in the config file inside that directory; the comments
+there explain every field. Preview locally with the same
+`python3 -m http.server 8000` and open `http://localhost:8000/p-<id>/`.
