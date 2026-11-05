@@ -7,7 +7,7 @@
  *
  *  Each game:
  *    id        short unique slug. Also the share link:  <page URL>/#<id>
- *              (add "/howto" to open the "how to get it" tab directly)
+ *              (add "/start" to open the "시작하기" tab directly)
  *    passion   1–5, how much you want to play it. Drives the order + the meter.
  *    status    "wishlist" → she can send you a request from the page
  *              "gifted"   → you've sent the Steam gift; page tells her to accept
@@ -35,8 +35,6 @@ window.GAMES_CONFIG = {
                                     // Preview any of them with ?theme=… in the URL.
     partnerName: "",                // her name. Empty = "플레이어 2 전용 / 너랑 하고 싶은 게임들".
                                     // Set = "○○ 전용 / ○○(이)랑 하고 싶은 게임들".
-    steamFriendCode: "",            // e.g. "123456789". Shown (with a copy button) in the gift steps.
-                                    // Steam → Friends → Add a Friend → "Your Friend Code".
     formspreeId: "mwllznnb",        // from https://formspree.io (free).
                                     // Empty = the send button opens her mail app instead.
     ownerEmail: ["zhihao.2.wu", "kcl.ac.uk"],   // [user, domain] — joined at runtime
@@ -58,9 +56,9 @@ window.GAMES_CONFIG = {
       intro: { ko: "XLGAMES가 만든 아키에이지의 후속작, 오픈월드 액션 MMORPG야. 잊혀졌던 대륙 '오로리아'에 개척자로 첫발을 딛는 이야기야. 2026년 11월 4일(한국 시간)에 Steam 앞서 해보기로 막 나왔어.",
                en: "XLGAMES' follow-up to ArcheAge, an open-world action MMORPG. We set foot on Auroria, a long-lost continent, as pioneers. It just launched in Steam Early Access on November 3, 2026 (PT)." },
       facts: [
-        { ko: "🇰🇷 한국어 자막 + 음성", en: "🇰🇷 Korean text + voice" },
-        { ko: "🌱 초보 난이도 보통 · 퀘스트만 따라가면 돼", en: "🌱 Medium for beginners · just follow the quests" },
-        { ko: "⏱ 한 판 1~2시간", en: "⏱ 1–2 hours a session" },
+        { ko: "한국어 자막 + 음성", en: "Korean text + voice" },
+        { ko: "초보 난이도 보통 (퀘스트만 따라가면 돼)", en: "Medium for beginners (just follow the quests)" },
+        { ko: "한 판 1~2시간", en: "1–2 hours a session" },
       ],
       systems: [
         { icon: "🗺️", label: { ko: "탐험", en: "Explore" }, shot: "img/archeage-explore.jpg",
@@ -106,9 +104,9 @@ window.GAMES_CONFIG = {
       intro: { ko: "Klei가 만든 협동 생존 게임. 이상한 세계 '콘스턴트'에 떨어져서 재료 모으고, 도구 만들고, 밤이랑 겨울을 버텨. 그림체는 팀 버튼 영화 같고, 죽어도 유령으로 떠돌다가 다시 살아날 수 있어.",
                en: "Klei's co-op survival game. We're dropped into a strange world called The Constant: gather, craft, and make it through the nights and the winter. It looks like a Tim Burton film, and if you die you float around as a ghost until you're revived." },
       facts: [
-        { ko: "🇰🇷 한국어 OK", en: "🇰🇷 Korean OK" },
-        { ko: "🌱 초보 난이도 높음 · 대신 내가 캐리", en: "🌱 Hard for beginners · but I'll carry" },
-        { ko: "⏱ 한 판 1시간~ (게임 속 하루가 8분)", en: "⏱ 1 hour+ a session (a day is 8 min)" },
+        { ko: "한국어 OK", en: "Korean OK" },
+        { ko: "초보 난이도 높음 (대신 내가 캐리)", en: "Hard for beginners (but I'll carry)" },
+        { ko: "한 판 1시간~ (게임 속 하루 8분)", en: "1 hour+ a session (a day is 8 min)" },
       ],
       systems: [
         { icon: "🏕️", label: { ko: "기지", en: "Base camp" }, shot: "img/dst-base.jpg",
@@ -154,10 +152,9 @@ window.GAMES_CONFIG = {
       intro: { ko: "Pawprint Studio가 만든 무료 오픈월드 크리처 수집 RPG. 널찍한 대륙 '이딜'에서 귀여운 애니모를 잡고, 키우고, 직접 애니모로 변신해서 돌아다녀. PC랑 폰이 크로스플레이라 침대에서도 돼.",
                en: "A free-to-play open-world creature-catching RPG from Pawprint Studio. Roam the continent of Idyll, catch and raise cute Aniimo, and even turn into them. PC and phone cross-play, so it works from bed too." },
       facts: [
-        { ko: "🇰🇷 한국어 OK", en: "🇰🇷 Korean OK" },
-        { ko: "🌱 초보 난이도 쉬움 · 포켓몬 해봤으면 끝", en: "🌱 Easy · if you've touched Pokémon, you're set" },
-        { ko: "⏱ 30분부터 OK", en: "⏱ 30 minutes is enough" },
-        { ko: "📱 폰으로도 돼", en: "📱 Works on your phone" },
+        { ko: "한국어 OK", en: "Korean OK" },
+        { ko: "초보 난이도 쉬움 (포켓몬 해봤으면 끝)", en: "Easy (if you've touched Pokémon, you're set)" },
+        { ko: "30분부터 OK", en: "30 minutes is enough" },
       ],
       systems: [
         { icon: "🐾", label: { ko: "포획 & 수집", en: "Catch" }, shot: "img/aniimo-catch.jpg",
@@ -202,20 +199,17 @@ window.GAMES_CONFIG = {
   ],
 
   /* ---- UI text ------------------------------------------------------------- */
-  // {name} = the game's name, {friend} = your friend code line, {code} = the code.
+  // {name} = the game's name.
   // In titleNamed, {name} = partnerName and {rang} = 랑/이랑.
   strings: {
     ko: {
       title: "너랑 하고 싶은\n게임들", titleNamed: "{name}{rang} 하고 싶은\n게임들",   // \n = line break
       lede: "하나 골라줘. 그게 우리 다음 데이트야.",
-      mobile: "모바일", requestedTag: "조르기 완료", close: "닫기",
-      tabAbout: "어떤 게임이야?", tabHowto: "어떻게 시작해?",
+      platformPc: "PC", platformMobile: "폰", requestedTag: "조르기 완료", close: "닫기",
+      tabAbout: "어떤 게임이야?", tabStart: "시작하기",
       systemsTitle: "뭐가 재밌냐면", sysTogether: "같이 하면", sysGoal: "우리 목표", enlarge: "크게 보기",
       trailerTitle: "영상으로 보기", play: "재생",
-      noteLabel: "내 한마디", goHowto: "어떻게 시작하는지 보기",
-      steamWhatTitle: "Steam이 뭐야?",
-      steamWhatBody: "PC 게임을 사고, 설치하고, 실행하는 앱이야. 폰의 앱스토어 같은 거. 계정 하나만 만들면 내가 보내는 선물도, 친구랑 같이 하는 것도 다 여기서 해. 무료야.",
-      copyCode: "코드 복사", copied: "복사됨!",
+      noteLabel: "내 한마디", goStart: "시작하기",
       requestTitle: "이거 하자고 조르기", requestSub: "기분 하나 고르면 나한테 메일로 바로 가.",
       send: "보내기", sending: "보내는 중…",
       sentTitle: "접수 완료!",
@@ -232,11 +226,7 @@ window.GAMES_CONFIG = {
       passion: ["궁금한 정도", "해볼 만해", "꽤 하고 싶어", "엄청 하고 싶어", "제발 같이 해줘"],
       status: { wishlist: "하고 싶어", gifted: "선물 보냄", playing: "같이 하는 중", finished: "깼다!" },
       tutorial: {
-        friendWithCode: "친구 코드 {code}",
-        friendNoCode: "내 친구 코드(카톡으로 보내줄게)",
-        gift: { label: "PC · Steam 선물 받기", steps: [
-          { title: "Steam 설치하고 로그인", body: "store.steampowered.com 에서 Steam을 받아 설치하고 로그인해. 계정이 없으면 이메일로 금방 만들 수 있어." },
-          { title: "나랑 Steam 친구 맺기", body: "친구 → 친구 추가 → {friend} 입력. 친구여야 선물을 보낼 수 있어." },
+        gift: { label: "Steam 선물 받기", steps: [
           { title: "선물 수락하기", body: "내가 보내면 Steam 상단에 초록색 알림이 뜨고 메일로도 와. 열어서 \"선물 수락\"을 누르면 라이브러리에 바로 들어가." },
           { title: "설치하기", body: "라이브러리에서 {name} 선택 → 설치. 다 받아지면 나한테 알려줘." },
         ] },
@@ -258,14 +248,11 @@ window.GAMES_CONFIG = {
     en: {
       title: "Games to play\nwith you", titleNamed: "Games to play\nwith {name}",
       lede: "Pick one, and that's our next date.",
-      mobile: "Mobile", requestedTag: "Requested", close: "Close",
-      tabAbout: "What is it?", tabHowto: "How to start",
+      platformPc: "PC", platformMobile: "Phone", requestedTag: "Requested", close: "Close",
+      tabAbout: "What is it?", tabStart: "Get started",
       systemsTitle: "What makes it fun", sysTogether: "Together", sysGoal: "Our goal", enlarge: "View larger",
       trailerTitle: "Watch the trailer", play: "Play",
-      noteLabel: "A word from me", goHowto: "See how to start",
-      steamWhatTitle: "What is Steam?",
-      steamWhatBody: "An app for buying, installing and launching PC games, like the App Store for your computer. One account is all you need: gifts from me and playing together both go through it. It's free.",
-      copyCode: "Copy code", copied: "Copied!",
+      noteLabel: "A word from me", goStart: "Get started",
       requestTitle: "Ask me to play this", requestSub: "Pick a mood and it goes straight to my inbox.",
       send: "Send", sending: "Sending…",
       sentTitle: "Got it!",
@@ -282,11 +269,7 @@ window.GAMES_CONFIG = {
       passion: ["Mildly curious", "Worth a try", "Pretty keen", "Really want to", "Please play with me"],
       status: { wishlist: "Wishlist", gifted: "Gift sent", playing: "Playing", finished: "Finished!" },
       tutorial: {
-        friendWithCode: "friend code {code}",
-        friendNoCode: "my friend code (I'll text it to you)",
-        gift: { label: "PC · Accept the Steam gift", steps: [
-          { title: "Install Steam and sign in", body: "Download Steam from store.steampowered.com, install it and sign in. No account? You can make one with an email in a minute." },
-          { title: "Add me as a Steam friend", body: "Friends → Add a Friend → enter {friend}. We need to be friends before I can send a gift." },
+        gift: { label: "Accept the Steam gift", steps: [
           { title: "Accept the gift", body: "When I send it, a green notification shows up at the top of Steam (and in your email). Open it and hit Accept Gift; it goes straight into your library." },
           { title: "Install it", body: "In your Library, pick {name} → Install. Ping me when it's done." },
         ] },

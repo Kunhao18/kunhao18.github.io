@@ -1,5 +1,5 @@
 /* =============================================================================
- *  app.js  —  builds the games page from window.GAMES_CONFIG
+ *  app.js  —  builds the page from window.GAMES_CONFIG
  * =============================================================================
  *  You normally don't need to edit this file. To change content, edit
  *  games.js. To change colors / spacing / layout, edit the <style> block in
@@ -60,15 +60,12 @@
     return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + path + "</svg>";
   }
   var IC = {
-    monitor: svg('<rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8M12 17v4"/>', 12),
-    phone: svg('<rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/>', 12),
     x: svg('<path d="M18 6 6 18M6 6l12 12"/>', 18),
     send: svg('<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>', 16),
     heart: svg('<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>', 18),
     heartOn: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>',
     heartOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>',
     ext: svg('<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>', 14),
-    copy: svg('<rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>', 14),
     play: '<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>',
   };
 
@@ -77,7 +74,7 @@
   var state = {
     lang: load("gw-lang", null) || S.defaultLang || "ko",
     openId: null,          // id of the game in the pop-up
-    tab: "about",          // "about" | "howto"
+    tab: "about",          // "about" | "start"
     sys: 0,                // selected "what's fun" tab inside the pop-up
     mood: null,            // selected mood id in the request bar
     sending: false,
@@ -100,34 +97,23 @@
       .map(function (x) { return x.g; });
   }
 
-  /* ---- tutorial steps (How to get it) ----------------------------------- */
+  /* ---- install / join steps (from the strings) -------------------------- */
 
   function tutorial(g) {
     var T = t().tutorial || {};
-    var code = (S.steamFriendCode || "").trim();
-    var vars = {
-      name: tx(g.name),
-      code: code,
-      friend: code ? fmt(T.friendWithCode, { code: code }) : (T.friendNoCode || ""),
-    };
-    function sec(block) {
-      return { label: block.label, steps: (block.steps || []).map(function (s) {
-        return {
-          title: fmt(s.title, vars),
-          body: fmt(s.body, vars),
-          copy: code && /\{friend\}|\{code\}/.test(s.body || "") ? code : "",   // show a copy button here
-        };
-      }) };
+    var vars = { name: tx(g.name) };
+    function steps(block) {
+      return (block.steps || []).map(function (s) { return { title: fmt(s.title, vars), body: fmt(s.body, vars) }; });
     }
-    var out = [];
-    if (g.delivery === "gift") { if (T.gift) out.push(sec(T.gift)); }
+    var sections = [];
+    if (g.delivery === "gift") { if (T.gift) sections.push({ label: T.gift.label, steps: steps(T.gift) }); }
     else {
-      if (g.pc && T.freePc) out.push(sec(T.freePc));
-      if (g.mobile && T.freeMobile) out.push(sec(T.freeMobile));
+      if (g.pc && T.freePc) sections.push({ label: T.freePc.label, steps: steps(T.freePc) });
+      if (g.mobile && T.freeMobile) sections.push({ label: T.freeMobile.label, steps: steps(T.freeMobile) });
     }
     var join = (T.join || {})[g.join];
-    if (join) out.push(sec({ label: T.joinLabel, steps: [join] }));
-    return out;
+    if (join) sections.push({ label: T.joinLabel, steps: steps({ steps: [join] }) });
+    return sections;
   }
 
   /* ---- shared pieces ---------------------------------------------------- */
@@ -140,13 +126,31 @@
     return m;
   }
 
-  function tagList(g, withIcons) {
-    var tt = t(), out = [];
+  function platformText(g) {
+    var tt = t(), p = [];
+    if (g.pc) p.push(tt.platformPc || "PC");
+    if (g.mobile) p.push(tt.platformMobile || "Mobile");
+    return p.join(" · ");
+  }
+
+  // One muted line: platform, then the facts.
+  function metaLine(g, withFacts) {
+    var items = [];
+    var pf = platformText(g);
+    if (pf) items.push(pf);
+    if (withFacts) (g.facts || []).forEach(function (f) {
+      var text = f && f.k != null ? tx(f.k) + ": " + tx(f.v) : tx(f);
+      if (text) items.push(text);
+    });
+    return items.length ? el("div", { class: "meta" }, [items.join(" · ")]) : null;
+  }
+
+  function statusTag(g) {
+    var tt = t();
+    var out = [];
     if (g.status && g.status !== "wishlist") out.push(el("span", { class: "tag " + (STATUS_CLASS[g.status] || "tag-neutral") }, [(tt.status || {})[g.status] || g.status]));
-    if (g.pc) out.push(el("span", { class: "tag tag-neutral", html: withIcons ? IC.monitor : "" }, ["PC"]));
-    if (g.mobile) out.push(el("span", { class: "tag tag-neutral", html: withIcons ? IC.phone : "" }, [tt.mobile]));
     if (g.status === "wishlist" && state.requested[g.id]) out.push(el("span", { class: "tag tag-accent-2" }, ["✓ " + tt.requestedTag]));
-    return el("div", { class: "tags" }, out);
+    return out.length ? el("div", { class: "tags" }, out) : null;
   }
 
   /* ---- page ------------------------------------------------------------- */
@@ -161,15 +165,18 @@
     return el("div", { class: "seg lang-seg", role: "group", "aria-label": "Language" }, [opt("ko", "한국어"), opt("en", "English")]);
   }
 
-  function buildCard(g, rank) {
+  function buildCard(g) {
     var a = el("a", { class: "game-card", href: "#" + g.id }, [
       el("div", { class: "card-cover washed" }, [g.cover ? el("img", { src: g.cover, alt: "", loading: "lazy", decoding: "async" }) : null]),
-      el("div", { class: "card-main" }, [
-        tagList(g, true),
+      el("div", { class: "card-body" }, [
+        statusTag(g),
         el("div", { class: "card-name" }, [tx(g.name)]),
         el("div", { class: "card-hook" }, [tx(g.hook)]),
+        el("div", { class: "card-foot" }, [
+          el("div", { class: "card-passion" }, [hearts(g.passion), el("span", { class: "passion-label" }, [passionLabel(g.passion)])]),
+          metaLine(g, false),
+        ]),
       ]),
-      el("div", { class: "card-passion" }, [hearts(g.passion), el("div", { class: "passion-label" }, [passionLabel(g.passion)])]),
     ]);
     // Clicking a card normally just changes the #hash (handled below). If the
     // hash already matches (e.g. the pop-up was closed with Esc), open directly.
@@ -196,7 +203,7 @@
         el("h1", {}, [title]),
         el("p", { class: "lede" }, [tt.lede]),
       ]),
-      el("div", { class: "list" }, sortedGames().map(function (g, i) { return buildCard(g, i + 1); })),
+      el("div", { class: "list" }, sortedGames().map(buildCard)),
       S.lastUpdated ? el("footer", { class: "foot" }, [tt.updated + " · " + S.lastUpdated]) : null,
     ].filter(Boolean);
     root.replaceChildren.apply(root, parts);
@@ -223,7 +230,7 @@
     if (!g) return;
     var same = dialog.open && state.openId === id;
     state.openId = id;
-    state.tab = tab === "howto" ? "howto" : "about";
+    state.tab = tab === "start" ? "start" : "about";
     if (!same) { state.mood = null; state.error = false; state.sending = false; state.sys = 0; }
     renderModal();
     if (!dialog.open) {
@@ -248,8 +255,9 @@
     ]);
 
     var head = el("div", { class: "modal-head" }, [
-      tagList(g, false),
+      statusTag(g),
       el("h2", { id: "dlg-title" }, [tx(g.name)]),
+      metaLine(g, true),
       el("div", { class: "passion-row" }, [hearts(g.passion, "md"), el("span", { class: "passion-label" }, [passionLabel(g.passion)])]),
     ]);
 
@@ -267,32 +275,24 @@
       input.addEventListener("change", function () { setTab(code); });
       return el("label", { class: "seg-opt" }, [input, label]);
     }
-    return el("div", { class: "seg tabs", role: "group" }, [opt("about", tt.tabAbout), opt("howto", tt.tabHowto)]);
+    return el("div", { class: "seg tabs", role: "group" }, [opt("about", tt.tabAbout), opt("start", tt.tabStart)]);
   }
 
   function setTab(tab, fromHash) {
-    state.tab = tab === "howto" ? "howto" : "about";
+    state.tab = tab === "start" ? "start" : "about";
     var g = currentGame();
     if (!g) return;
     var host = dialog.querySelector(".panel-host");
     if (host) host.replaceChildren(buildPanel(g));
     dialog.querySelectorAll('input[name="tab"]').forEach(function (i) { i.checked = i.value === state.tab; });
-    var tabs = dialog.querySelector(".tabs");
-    if (tabs && !fromHash) tabs.scrollIntoView({ block: "nearest" });
-    if (!fromHash) history.replaceState(null, "", "#" + g.id + (state.tab === "howto" ? "/howto" : ""));
+    var tabs = dialog.querySelector(".tabs");   // read the new tab from its top
+    if (tabs) tabs.scrollIntoView({ block: "start" });
+    if (!fromHash) history.replaceState(null, "", "#" + g.id + (state.tab === "start" ? "/start" : ""));
   }
 
-  function buildPanel(g) { return state.tab === "howto" ? buildHowto(g) : buildAbout(g); }
+  function buildPanel(g) { return state.tab === "start" ? buildStart(g) : buildAbout(g); }
 
   /* ---- About tab -------------------------------------------------------- */
-
-  function buildFacts(g) {
-    var facts = (g.facts || []).map(function (f) {
-      var text = f && f.k != null ? tx(f.k) + ": " + tx(f.v) : tx(f);
-      return text ? el("span", { class: "fact" }, [text]) : null;
-    }).filter(Boolean);
-    return facts.length ? el("div", { class: "facts" }, facts) : null;
-  }
 
   function buildSystems(g) {
     var tt = t();
@@ -302,16 +302,13 @@
 
     var chips = el("div", { class: "chips", role: "tablist" }, systems.map(function (s, i) {
       var on = i === state.sys;
-      var b = el("button", { class: "chip", type: "button", role: "tab", "aria-selected": on ? "true" : "false", "aria-pressed": on ? "true" : "false" },
+      var b = el("button", { class: "chip", type: "button", role: "tab", "aria-selected": on ? "true" : "false" },
         [s.icon ? el("span", { class: "chip-ic", "aria-hidden": "true" }, [s.icon]) : null, tx(s.label)]);
       b.addEventListener("click", function () {
         state.sys = i;
         var host = dialog.querySelector(".sys-host");
         if (host) host.replaceChildren(buildSystemPanel(systems[i]));
-        dialog.querySelectorAll(".chip").forEach(function (c, j) {
-          c.setAttribute("aria-selected", j === i ? "true" : "false");
-          c.setAttribute("aria-pressed", j === i ? "true" : "false");
-        });
+        dialog.querySelectorAll(".chip").forEach(function (c, j) { c.setAttribute("aria-selected", j === i ? "true" : "false"); });
       });
       return b;
     }));
@@ -373,47 +370,33 @@
     var links = (g.links || []).length ? el("div", { class: "links" }, g.links.map(function (l) {
       return el("a", { class: "btn btn-secondary", href: l.href, target: "_blank", rel: "noopener noreferrer" }, [tx(l.label), el("span", { html: IC.ext })]);
     })) : null;
-    var go = el("button", { class: "btn btn-ghost go-howto", type: "button" }, [tt.goHowto + " →"]);
-    go.addEventListener("click", function () { setTab("howto"); });
+    var go = el("button", { class: "btn btn-primary go-start", type: "button" }, [tt.goStart + " →"]);
+    go.addEventListener("click", function () { setTab("start"); });
     return el("div", { class: "panel" }, [
       el("p", { class: "intro-text" }, [tx(g.intro)]),
-      buildFacts(g),
       buildSystems(g),
       buildTrailer(g),
       note, links, go,
     ]);
   }
 
-  /* ---- How-to tab ------------------------------------------------------- */
+  /* ---- Start tab (시작하기): get the game, then play together ------------ */
 
-  function buildHowto(g) {
+  function stepCard(n, title, body) {
+    return el("div", { class: "step" }, [
+      el("span", { class: "step-n", "aria-hidden": "true" }, [String(n)]),
+      el("div", { class: "step-c" }, [el("div", { class: "step-t" }, [title]), body ? el("div", { class: "step-b" }, [body]) : null]),
+    ]);
+  }
+
+  function buildStart(g) {
     var tt = t();
-    var explain = (g.delivery === "gift" || g.pc) && tt.steamWhatTitle ? el("details", { class: "explain" }, [
-      el("summary", {}, [tt.steamWhatTitle]),
-      el("p", {}, [tt.steamWhatBody]),
-    ]) : null;
-
     var sections = tutorial(g).map(function (sec) {
-      return el("div", { class: "section" }, [el("h4", {}, [sec.label])].concat(sec.steps.map(function (st, i) {
-        var copyBtn = null;
-        if (st.copy) {
-          copyBtn = el("button", { class: "btn btn-secondary copy-btn", type: "button", html: IC.copy }, [tt.copyCode]);
-          copyBtn.addEventListener("click", function () {
-            var done = function () { copyBtn.replaceChildren(el("span", { html: IC.copy }), tt.copied); setTimeout(function () { copyBtn.replaceChildren(el("span", { html: IC.copy }), tt.copyCode); }, 1600); };
-            if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(st.copy).then(done, function () { window.prompt(tt.copyCode, st.copy); });
-            else window.prompt(tt.copyCode, st.copy);
-          });
-        }
-        return el("div", { class: "step" }, [
-          el("div", { class: "step-n", "aria-hidden": "true" }, [String(i + 1)]),
-          el("div", { class: "step-c" }, [el("div", { class: "step-t" }, [st.title]), el("div", { class: "step-b" }, [st.body]), copyBtn]),
-        ]);
+      return el("section", { class: "gsec" }, [el("h4", { class: "gsec-t" }, [sec.label || ""])].concat(sec.steps.map(function (st, i) {
+        return stepCard(i + 1, st.title, st.body);
       })));
     });
-    return el("div", { class: "panel howto" }, [
-      el("div", { class: "delivery" }, [g.delivery === "gift" ? tt.gift : tt.free]),
-      explain,
-    ].concat(sections));
+    return el("div", { class: "panel start" }, [el("div", { class: "delivery" }, [g.delivery === "gift" ? tt.gift : tt.free])].concat(sections));
   }
 
   /* ---- lightbox --------------------------------------------------------- */
@@ -461,11 +444,11 @@
       return doneRow(sentMood.e, tt.sentTitle, g.delivery === "gift" ? tt.sentGift : tt.sentFree, again);
     }
 
-    // The request form.
+    // The request form: four mood tiles, then Send.
     var moods = MOODS.map(function (md) {
       var on = state.mood === md.id;
-      var b = el("button", { class: "btn btn-secondary mood" + (on ? " on" : ""), type: "button", "aria-pressed": on ? "true" : "false" },
-        [el("span", { class: "e", "aria-hidden": "true" }, [md.e]), tx(md.label)]);
+      var b = el("button", { class: "mood" + (on ? " on" : ""), type: "button", "aria-pressed": on ? "true" : "false" },
+        [el("span", { class: "e", "aria-hidden": "true" }, [md.e]), el("span", { class: "mood-l" }, [tx(md.label)])]);
       b.addEventListener("click", function () { state.mood = md.id; state.error = false; renderBar(); });
       return b;
     });
@@ -475,7 +458,8 @@
 
     return el("div", { class: "request" }, [
       el("div", { class: "bar-head" }, [el("div", { class: "bar-title" }, [tt.requestTitle]), el("div", { class: "bar-sub" }, [tt.requestSub])]),
-      el("div", { class: "moods" }, moods.concat([sendBtn])),
+      el("div", { class: "moods" }, moods),
+      sendBtn,
       state.error ? el("div", { class: "err", role: "alert" }, [tt.error]) : null,
     ]);
   }
@@ -509,7 +493,7 @@
     };
     var fid = (S.formspreeId || "").trim();
 
-    // No Formspree form yet: hand it to her mail app with everything filled in.
+    // No Formspree form: hand it to her mail app with everything filled in.
     if (!fid) {
       var email = Array.isArray(S.ownerEmail) ? S.ownerEmail.join("@") : (S.ownerEmail || "");
       if (!email) { state.error = true; renderBar(); return; }
@@ -538,14 +522,14 @@
   }
 
   /* ---- #hash routing ---------------------------------------------------- */
-  // #<id> opens a game, #<id>/howto opens it on the "how to get it" tab.
+  // #<id> opens a game, #<id>/start opens it on the "시작하기" tab.
 
   function parseHashStr(h) {
     h = (h || "").replace(/^#/, "");
     if (!h) return null;
     var parts = h.split("/");
     var g = findById(GAMES, decodeURIComponent(parts[0]));
-    return g ? { id: g.id, tab: parts[1] === "howto" ? "howto" : "about" } : null;
+    return g ? { id: g.id, tab: parts[1] === "start" ? "start" : "about" } : null;
   }
   function parseHash() { return parseHashStr(location.hash); }
 
