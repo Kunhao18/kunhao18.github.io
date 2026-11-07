@@ -21,7 +21,7 @@ window.SITE_CONFIG = {
   me: "Zhihao Wu",                       // used to auto-underline you in author lists
   role: "PhD Student in Natural Language Processing",
   affiliation: "King's College London", // shown in the small top-left wordmark
-  lastUpdated: "June 2026",             // shown in the footer
+  lastUpdated: "November 2026",             // shown in the footer
 
   /* ---- Theme ------------------------------------------------------------- */
   // Default theme on first visit ("light" or "dark"). Visitor's choice is
@@ -78,6 +78,7 @@ window.SITE_CONFIG = {
   /* ---- News -------------------------------------------------------------- */
   // Most recent first. `date` is shown in mono on the left; `text` may use HTML.
   news: [
+    { date: "Aug 2026", text: `<strong>EDIT</strong> accepted by <em>Findings of EMNLP 2026</em> 🎉 <a href="https://arxiv.org/abs/2606.06350">[paper]</a> <a href="https://kunhao.site/EDIT/">[page]</a>` },
     { date: "May 2026", text: `<strong>WASH</strong> accepted by <em>ICML 2026</em> 🎉 <a href="https://arxiv.org/abs/2605.30501">[paper]</a>` },
     { date: "Oct 2025", text: `Started my PhD at <em>King's College London</em>, supervised by Prof. Yulan He.` },
     { date: "Jan 2025", text: `<strong>SPA-Bench</strong> accepted as a Spotlight by <em>ICLR 2025</em> 🎉 <a href="https://arxiv.org/abs/2410.15164">[paper]</a>` },
@@ -93,6 +94,13 @@ window.SITE_CONFIG = {
     {
       year: "2026",
       items: [
+        {
+          venue: "EMNLP 2026 · Findings",
+          title: "EDIT: Evidence-Diagnosed Intervention Training for Rule-Faithful LLM Grading",
+          authors: "Zhihao Wu*, Linhai Zhang*, Taiyi Wang*, Runcong Zhao, Peter Andrews, Cesare Aloisi, Yulan He",
+          where: "Findings of the Association for Computational Linguistics: EMNLP 2026",
+          links: [["paper", "https://arxiv.org/abs/2606.06350"], ["code", "https://github.com/Kunhao18/EDIT"], ["page", "https://kunhao.site/EDIT/"]],
+        },
         {
           venue: "ICML 2026",
           title: "Linear Ensembles Wash Away Watermarks: On the Fragility of Distributional Perturbations in LLMs",
